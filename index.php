@@ -9,10 +9,12 @@ $resultInfoTask = mysqli_query($link, $sqlTaskOnTimeAndLate);
 // Array untuk menyimpan nama dan nilai
 $names = [];
 $values = [];
+$rowSkorKPI = [];
 
 while ($row = mysqli_fetch_array($resultSkorKpi)) {
     $names[] = $row['nama']; // Menyimpan nama untuk label chart
     $values[] = $row['skor_kpi']; // Menyimpan nilai untuk data chart
+    $rowSkorKPI[] = $row;
 }
 
 $tasks = [];
@@ -49,6 +51,64 @@ $tasksData = [$tasks['total_task_ontime'], $tasks['total_task_late']];
               <canvas id="totalTaskOntimeAndLateChart"></canvas>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="container mt-5 min-vh-100">
+        <h2>KPI Marketing Report</h2>
+        <div style="overflow-x: auto;">
+          <table class="table table-striped table-hover">
+              <thead>
+                  <tr>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Target Sales</th>
+                      <th scope="col">Aktual Sales</th>
+                      <th scope="col">Pencapaian Sales (%)</th>
+                      <th scope="col">Bobot Sales</th>
+                      <th scope="col">Late Sales</th>
+                      <th scope="col">Total Bobot Sales</th>
+                      <th scope="col">Target Report</th>
+                      <th scope="col">Aktual Report</th>
+                      <th scope="col">Pencapaian Report (%)</th>
+                      <th scope="col">Bobot Report</th>
+                      <th scope="col">Late Report</th>
+                      <th scope="col">Total Bobot Report</th>
+                      <th scope="col">Skor KPI</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <?php
+                  // Check if there are results and loop through them to populate the table rows
+                  if (count($rowSkorKPI) > 0) {
+                      foreach ($rowSkorKPI as $key => $row) {
+                          ?>
+                          <tr>
+                              <td><?= htmlspecialchars($row['nama']); ?></td>
+                              <td><?= $row['target_sales']; ?></td>
+                              <td><?= $row['aktual_sales']; ?></td>
+                              <td><?= number_format($row['pencapaian_sales'], 2); ?>%</td>
+                              <td><?= $row['bobot_sales']; ?>%</td>
+                              <td><?= $row['late_sales']; ?>%</td>
+                              <td><?= $row['total_bobot_sales']; ?>%</td>
+                              <td><?= $row['target_report']; ?></td>
+                              <td><?= $row['aktual_report']; ?></td>
+                              <td><?= number_format($row['pencapaian_report'], 2); ?>%</td>
+                              <td><?= $row['bobot_report']; ?>%</td>
+                              <td><?= $row['late_report']; ?>%</td>
+                              <td><?= $row['total_bobot_report']; ?>%</td>
+                              <td><?= $row['skor_kpi']; ?>%</td>
+                          </tr>
+                          <?php
+                      }
+                  } else {
+                      ?>
+                      <tr>
+                          <td colspan="14" class="text-center">No results found</td>
+                      </tr>
+                      <?php
+                  }
+                  ?>
+              </tbody>
+          </table>
         </div>
       </div>
     </main>
