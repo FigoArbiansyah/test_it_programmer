@@ -82,6 +82,7 @@ $tasksData = [$tasks['total_task_ontime'], $tasks['total_task_late']];
         data: {
           labels: ['Task On Time', 'Task Late'],
           datasets: [{
+            label: 'Total',
             data: dataTasks,
             backgroundColor: ['#59C3C8', 'rgb(255, 99, 132)'],
             hoverOffset: 4
